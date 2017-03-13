@@ -50,6 +50,7 @@
 @set werl=%bindir%\werl.exe
 @set nodetool=%release_root_dir%\bin\nodetool
 @set conform=%rel_dir%\conform
+@set consolidated=%release_root_dir%\lib\%rel_name%-%rel_vsn%\consolidated
 
 :: Extract node type and name from vm.args
 @for /f "usebackq tokens=1-2" %%I in (`findstr /b "\-name \-sname" "%vm_args%"`) do @(
@@ -183,7 +184,7 @@
 :install
 @if "" == "%2" (
   :: Install the service
-  set args=%erl_opts% %conform_opts% -setcookie %cookie% ++ -rootdir \"%rootdir%\"
+  set args=-setcookie %cookie% -pa \"%consolidated%\" %erl_opts% %conform_opts% ++ -rootdir \"%rootdir%\"
   set svc_machine=%erts_dir%\bin\start_erl.exe
   set description=Erlang node %node_name% in %rootdir%
   %erlsrv% add %service_name% %node_type% "%node_name%" -c "%description%" ^
@@ -230,8 +231,8 @@
 @start "%rel_name% console" %werl% -config "%sys_config%" ^
        -boot "%boot_script%" -boot_var ERTS_LIB_DIR "%erts_dir%"/lib ^
        -env ERL_LIBS "%release_root_dir%"/lib ^
-       -pa "%release_root_dir%"/lib "%release_root_dir%"/lib/consolidated ^
        -args_file "%vm_args%" ^
+       -pa "%consolidated%" ^
        -user Elixir.IEx.CLI -extra --no-halt +iex
 
 @goto :eof
@@ -249,7 +250,7 @@
 :: Attach to a running node
 :attach
 @%escript% %nodetool% attach %werl% -boot "%clean_boot_script%" -config "%sys_config%" ^
-       -pa "%release_root_dir%"/lib "%release_root_dir%"/lib/consolidated ^
+       -pa "%consolidated%" ^
        -hidden -noshell ^
        -boot_var ERTS_LIB_DIR "%erts_dir%"/lib ^
        -user Elixir.IEx.CLI "%node_type%" "%node_name%" ^

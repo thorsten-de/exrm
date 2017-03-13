@@ -3,8 +3,8 @@ defmodule ReleaseManager.Mixfile do
 
   def project do
     [ app: :exrm,
-      version: "1.0.8",
-      elixir: "~> 1.0",
+      version: "1.0.9",
+      elixir: "~> 1.4",
       description: description(),
       package: package(),
       deps: deps(),
@@ -17,9 +17,9 @@ defmodule ReleaseManager.Mixfile do
   ]
 
   def deps do
-    [{:relx, "~> 3.5" },
-     {:earmark, "~> 1.0", only: :dev},
-     {:ex_doc, "~> 0.13", only: :dev},
+    [{:relx, "~> 3.22" },
+     {:earmark, "~> 1.2", only: :dev},
+     {:ex_doc, "~> 0.15", only: :dev},
      {:coverex, "~> 1.4", only: :test}]
   end
 
