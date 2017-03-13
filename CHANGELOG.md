@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - N/A
 ### Fixed
 - N/A
+
 ## 1.0.9 
 ### Fixed
 - Consolidated protocols are used in generated .bat file for windows.
